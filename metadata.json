@@ -1,0 +1,6 @@
+{
+  "name": "HVLN Shop",
+  "description": "HVLN Shop online store with product catalog, shopping cart, order tracking, customer reviews, inventory management, and point of sale.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,5861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVLN Shop</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --primary:#12b886;
+    --primary-dark:#087f5b;
+    --secondary:#e6fcf5;
+    --dark:#212529;
+    --light:#f8f9fa;
+    --white:#fff;
+    --danger:#e03131;
+    --warning:#f08c00;
+    --border:#dee2e6;
+    --shadow:0 5px 20px rgba(0,0,0,.10);
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f7f8;
+    color:var(--dark);
+}
+
+header{
+    background:#fff;
+    box-shadow:var(--shadow);
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.header-container{
+    max-width:1400px;
+    margin:auto;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    color:var(--primary-dark);
+    cursor:pointer;
+}
+
+.logo span{
+    color:var(--dark);
+}
+
+nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+}
+
+.nav-btn{
+    border:none;
+    background:transparent;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.nav-btn:hover{
+    background:var(--secondary);
+    color:var(--primary-dark);
+}
+
+.nav-btn.owner-only{
+    display:none;
+}
+
+.cart-btn{
+    background:var(--primary);
+    color:white;
+}
+
+.cart-btn:hover{
+    background:var(--primary-dark);
+    color:white;
+}
+
+main{
+    max-width:1400px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.hero{
+    background:linear-gradient(135deg,#e6fcf5,#fff);
+    border-radius:20px;
+    padding:60px 30px;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:15px;
+    color:var(--primary-dark);
+}
+
+.hero p{
+    font-size:18px;
+    color:#495057;
+    margin-bottom:25px;
+}
+
+.hero-btn{
+    padding:13px 25px;
+    background:var(--primary);
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.section-title{
+    margin-bottom:20px;
+    font-size:28px;
+}
+
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+}
+
+.product-card{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.product-card img{
+    width:100%;
+    height:230px;
+    object-fit:cover;
+}
+
+.product-info{
+    padding:18px;
+}
+
+.product-info h3{
+    margin-bottom:8px;
+}
+
+.category{
+    display:inline-block;
+    background:var(--secondary);
+    color:var(--primary-dark);
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.price{
+    font-size:20px;
+    font-weight:bold;
+    color:var(--primary-dark);
+    margin:10px 0;
+}
+
+.stock{
+    font-size:13px;
+    color:#666;
+    margin-bottom:12px;
+}
+
+.product-buttons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:none;
+    padding:10px 14px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+.btn-warning{
+    background:var(--warning);
+    color:white;
+}
+
+.btn-secondary{
+    background:#868e96;
+    color:white;
+}
+
+.category-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+}
+
+.category-card{
+    background:#fff;
+    padding:30px 20px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+}
+
+.category-card:hover{
+    background:var(--secondary);
+}
+
+.reviews-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.review-card{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+}
+
+.stars{
+    color:#f59f00;
+    margin-bottom:10px;
+    font-size:20px;
+}
+
+.review-form{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+    margin-bottom:25px;
+}
+
+.order-card{
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:var(--shadow);
+}
+
+.order-header{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--border);
+    padding-bottom:12px;
+    margin-bottom:12px;
+}
+
+.status{
+    padding:5px 10px;
+    border-radius:20px;
+    background:var(--secondary);
+    color:var(--primary-dark);
+    font-size:13px;
+    font-weight:bold;
+}
+
+.table-container{
+    overflow-x:auto;
+    background:#fff;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+    margin-bottom:25px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:800px;
+}
+
+th,td{
+    padding:14px;
+    border-bottom:1px solid var(--border);
+    text-align:left;
+}
+
+th{
+    background:var(--secondary);
+    color:var(--primary-dark);
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    outline:none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:var(--primary);
+}
+
+.account-details{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+    max-width:700px;
+    margin:auto;
+}
+
+.account-row{
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.account-row strong{
+    display:inline-block;
+    min-width:120px;
+}
+
+.logout-account{
+    margin-top:20px;
+}
+
+.pos-container{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:25px;
+}
+
+.pos-products,
+.pos-cart{
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+}
+
+.pos-product{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    align-items:center;
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.pos-cart-item{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid var(--border);
+    align-items:center;
+}
+
+.total{
+    font-size:22px;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:2000;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:#fff;
+    width:100%;
+    max-width:500px;
+    max-height:90vh;
+    overflow-y:auto;
+    border-radius:15px;
+    padding:25px;
+    position:relative;
+}
+
+.modal-box.large{
+    max-width:800px;
+}
+
+.close{
+    position:absolute;
+    right:18px;
+    top:15px;
+    border:none;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.message{
+    margin:10px 0;
+    font-weight:bold;
+}
+
+.error{
+    color:var(--danger);
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.cart-item-info{
+    flex:1;
+}
+.cart-product-image{
+    width:82px;
+    height:82px;
+    object-fit:cover;
+    border-radius:10px;
+    flex-shrink:0;
+}
+.checkout-item,
+.order-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 0;
+    border-bottom:1px solid var(--border);
+}
+.checkout-item img,
+.order-item img{
+    width:68px;
+    height:68px;
+    object-fit:cover;
+    border-radius:9px;
+    flex-shrink:0;
+}
+.checkout-item-info,
+.order-item-info{
+    flex:1;
+    min-width:0;
+}
+.pos-sales-history{
+    grid-column:1 / -1;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+    margin-top:5px;
+}
+.pos-sale-card{
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:15px;
+    margin-top:12px;
+}
+
+.quantity-controls{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.quantity-controls button{
+    width:30px;
+    height:30px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    background:var(--secondary);
+}
+
+.cart-total{
+    margin-top:20px;
+    font-size:24px;
+    font-weight:bold;
+    text-align:right;
+}
+
+footer{
+    margin-top:50px;
+    background:#212529;
+    color:white;
+    padding:30px 20px;
+    text-align:center;
+}
+
+.owner-login-btn{
+    margin-top:15px;
+    background:transparent;
+    color:#adb5bd;
+    border:1px solid #495057;
+    padding:8px 15px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.inventory-menu{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:25px;
+}
+
+.inventory-tab{
+    border:none;
+    padding:12px 18px;
+    background:#e9ecef;
+    color:#343a40;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.inventory-tab.active{
+    background:var(--primary);
+    color:#fff;
+}
+
+.inventory-section{
+    display:none;
+}
+
+.inventory-section.active{
+    display:block;
+}
+
+.inventory-section-title{
+    font-size:22px;
+    margin-bottom:15px;
+    color:var(--primary-dark);
+}
+
+.supplier-form-box{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+    margin-bottom:25px;
+}
+
+.expiration-normal{
+    color:var(--primary-dark);
+    font-weight:bold;
+}
+
+.expiration-warning{
+    color:var(--warning);
+    font-weight:bold;
+}
+
+.expiration-expired{
+    color:var(--danger);
+    font-weight:bold;
+}
+
+.login-review-message{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+    margin-bottom:25px;
+}
+
+/* LOGIN GATEWAY */
+.auth-screen{
+    min-height:calc(100vh - 90px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:35px 20px;
+}
+.auth-box{
+    width:100%;
+    max-width:480px;
+    background:#fff;
+    padding:40px 30px;
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    text-align:center;
+}
+.auth-box h1{
+    color:var(--primary-dark);
+    margin-bottom:12px;
+}
+.auth-box p{
+    color:#495057;
+    line-height:1.5;
+    margin-bottom:22px;
+}
+.auth-btn{
+    display:block;
+    width:100%;
+    padding:13px 18px;
+    margin:12px 0;
+    border:0;
+    border-radius:8px;
+    color:#fff;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+}
+.customer-auth{background:var(--primary);}
+.customer-auth:hover{background:var(--primary-dark);}
+.owner-auth{background:#343a40;}
+.owner-auth:hover{background:#212529;}
+.auth-box .auth-note{
+    margin:18px 0 0;
+    font-size:13px;
+    color:#6c757d;
+}
+
+@media(max-width:900px){
+
+    .header-container{
+        flex-direction:column;
+    }
+
+    .pos-container{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    nav{
+        width:100%;
+    }
+
+    .nav-btn{
+        font-size:12px;
+        padding:8px 9px;
+    }
+
+    .cart-item{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="header-container">
+
+<div class="logo" onclick="showPage('home')">
+HVLN <span>Shop</span>
+</div>
+
+<nav id="shopNavigation" style="display:none;">
+
+<button class="nav-btn" onclick="showPage('home')">
+Shop
+</button>
+
+<button class="nav-btn" onclick="showPage('products')">
+Products
+</button>
+
+<button class="nav-btn" onclick="showPage('categories')">
+Categories
+</button>
+
+<button class="nav-btn" onclick="showPage('reviews')">
+Reviews
+</button>
+
+<button class="nav-btn" id="myOrdersNav" onclick="showPage('orders')">
+My Orders
+</button>
+
+<button class="nav-btn owner-only" onclick="showPage('inventory')">
+Inventory
+</button>
+
+<button class="nav-btn owner-only" onclick="showPage('pos')">
+Point of Sale
+</button>
+
+<button class="nav-btn" onclick="showPage('account')">
+Account
+</button>
+
+<!-- CUSTOMER CART ONLY -->
+<button class="nav-btn cart-btn" id="cartButton" onclick="openCart()">
+🛒 Cart (<span id="cartCount">0</span>)
+</button>
+
+</nav>
+
+</div>
+
+</header>
+
+<!-- LOGIN GATEWAY: SHOWN BEFORE ENTERING THE SHOP -->
+<section id="authScreen" class="auth-screen">
+    <div class="auth-box">
+        <h1>Welcome to HVLN Shop</h1>
+        <p>Please log in to continue shopping or manage the store.</p>
+        <button class="auth-btn customer-auth" onclick="openLogin()">Customer Login</button>
+        <button class="auth-btn owner-auth" onclick="openOwnerLogin()">Owner Login</button>
+        <p class="auth-note">New customer? Choose Customer Login, then select Create Account.</p>
+    </div>
+</section>
+
+<main id="shopMain" style="display:none;">
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+<div class="hero">
+
+<h1>Welcome to HVLN Shop</h1>
+
+<p>
+Your trusted online shop for quality products.
+</p>
+
+<button
+class="hero-btn"
+onclick="showPage('products')">
+
+Shop Now
+
+</button>
+
+</div>
+
+<h2 class="section-title">
+Featured Products
+</h2>
+
+<div
+id="homeProducts"
+class="products-grid">
+</div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section id="products" class="page">
+
+<h2 class="section-title">
+Our Products
+</h2>
+
+<div
+id="productGrid"
+class="products-grid">
+</div>
+
+</section>
+
+
+<!-- CATEGORIES -->
+
+
+<section id="categories" class="page">
+
+    <h2 class="section-title">
+        Categories
+    </h2>
+
+    <div class="category-grid">
+
+        <div
+            class="category-card"
+            onclick="filterCategory('Slippers')">
+
+            <h3>Slippers</h3>
+
+            <p>
+                Comfortable slippers for everyday use.
+            </p>
+
+        </div>
+
+        <div
+            class="category-card"
+            onclick="filterCategory('Sandals')">
+
+            <h3>Sandals</h3>
+
+            <p>
+                Stylish sandals for different occasions.
+            </p>
+
+        </div>
+
+        <div
+            class="category-card"
+            onclick="filterCategory('Flip-Flops')">
+
+            <h3>Flip-Flops</h3>
+
+            <p>
+                Lightweight and comfortable footwear.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- REVIEWS -->
+
+<section id="reviews" class="page">
+
+<h2 class="section-title">
+Customer Reviews
+</h2>
+
+<!-- REVIEW FORM -->
+<div id="reviewFormContainer"></div>
+
+<!-- REVIEWS -->
+<div
+id="reviewsContainer"
+class="reviews-grid">
+</div>
+
+</section>
+
+
+<!-- ORDERS -->
+
+<section id="orders" class="page">
+
+<h2 class="section-title">
+My Orders
+</h2>
+
+<div id="ordersContainer"></div>
+
+</section>
+
+
+<!-- INVENTORY -->
+
+<section id="inventory" class="page">
+
+<h2 class="section-title">
+Inventory Management
+</h2>
+
+<div class="inventory-menu">
+
+<button
+class="inventory-tab active"
+onclick="showInventorySection('productList',this)">
+
+Product List
+
+</button>
+
+<button
+class="inventory-tab"
+onclick="showInventorySection('customerList',this)">
+
+Customer List
+
+</button>
+
+<button
+class="inventory-tab"
+onclick="showInventorySection('supplierList',this)">
+
+Supplier List
+
+</button>
+
+<button
+class="inventory-tab"
+onclick="showInventorySection('expirationList',this)">
+
+Expiration List
+
+</button>
+
+</div>
+
+
+<!-- PRODUCT LIST -->
+
+<div
+id="productList"
+class="inventory-section active">
+
+<h3 class="inventory-section-title">
+Product List
+</h3>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Image</th>
+<th>Product Name</th>
+<th>Category</th>
+<th>Price</th>
+<th>Size</th>
+<th>Stock</th>
+<th>Supplier</th>
+<th>Expiration</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="inventoryTable">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- CUSTOMER LIST -->
+
+<div
+id="customerList"
+class="inventory-section">
+
+<h3 class="inventory-section-title">
+Customer List
+</h3>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Customer #</th>
+<th>Name</th>
+<th>Username</th>
+<th>Email</th>
+<th>Contact</th>
+<th>Address</th>
+
+</tr>
+
+</thead>
+
+<tbody id="customersTable">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- SUPPLIER LIST -->
+
+<div
+id="supplierList"
+class="inventory-section">
+
+<h3 class="inventory-section-title">
+Supplier List
+</h3>
+
+<div class="supplier-form-box">
+
+<h3 style="margin-bottom:15px;">
+Add Supplier
+</h3>
+
+<div class="form-group">
+
+<label>
+Supplier Name
+</label>
+
+<input
+type="text"
+id="supplierName"
+placeholder="Enter supplier name">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Contact Number
+</label>
+
+<input
+type="text"
+id="supplierContact"
+placeholder="Enter contact number">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Email
+</label>
+
+<input
+type="email"
+id="supplierEmail"
+placeholder="Enter supplier email">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Address
+</label>
+
+<input
+type="text"
+id="supplierAddress"
+placeholder="Enter supplier address">
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addSupplier()">
+
+Add Supplier
+
+</button>
+
+</div>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Supplier #</th>
+<th>Supplier Name</th>
+<th>Contact</th>
+<th>Email</th>
+<th>Address</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="supplierTable">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- EXPIRATION LIST -->
+
+<div
+id="expirationList"
+class="inventory-section">
+
+<h3 class="inventory-section-title">
+Expiration List
+</h3>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Product</th>
+<th>Supplier</th>
+<th>Expiration Date</th>
+<th>Status</th>
+<th>Stock</th>
+
+</tr>
+
+</thead>
+
+<tbody id="expirationTable">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- POS -->
+
+<section id="pos" class="page">
+
+<h2 class="section-title">
+Point of Sale
+</h2>
+
+<div class="pos-container">
+
+<div class="pos-products">
+
+<h3>
+Products
+</h3>
+
+<div id="posProducts"></div>
+
+</div>
+
+<div class="pos-cart">
+
+<h3>
+POS Cart
+</h3>
+
+<div id="posCart"></div>
+
+<div class="total">
+
+Total:
+₱<span id="posTotal">0.00</span>
+
+</div>
+
+<br>
+
+<button
+class="btn btn-primary"
+onclick="completePOSOrder()">
+
+Complete POS Sale
+
+</button>
+
+</div>
+
+<div class="pos-sales-history">
+    <h3>Sales History</h3>
+    <p style="color:#666;margin-top:6px;">Completed customer orders and POS transactions, including the buyer's name and total sales.</p>
+    <div id="posSalesHistory"></div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ACCOUNT -->
+
+<section id="account" class="page">
+
+<h2 class="section-title">
+Account
+</h2>
+
+<div id="accountContent"></div>
+
+</section>
+
+</main>
+
+
+<footer id="shopFooter" style="display:none;">
+
+<p>
+Manielyn E. Falqueza
+</p>
+
+<p>
+HVLN Shop © 2026
+</p>
+
+
+</footer>
+
+
+<!-- CUSTOMER LOGIN -->
+
+<div id="loginModal" class="modal">
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            type="button"
+            onclick="closeModal('loginModal')">
+            ×
+        </button>
+
+        <h2>Customer Login</h2>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label>Username</label>
+                <input
+                    type="text"
+                    id="loginUsername"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="loginPassword"
+                    required>
+            </div>
+
+            <p id="loginMessage" class="message"></p>
+
+            <div class="product-buttons">
+                <button
+                    class="btn btn-primary"
+                    type="submit">
+                    Customer Login
+                </button>
+
+                <button
+                    class="btn btn-secondary"
+                    type="button"
+                    onclick="openSignup()">
+                    Create Account
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- CUSTOMER SIGNUP -->
+
+<div id="signupModal" class="modal">
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            type="button"
+            onclick="closeModal('signupModal')">
+            ×
+        </button>
+
+        <h2>Create Customer Account</h2>
+
+        <form id="signupForm">
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input
+                    type="text"
+                    id="signupName"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Username</label>
+                <input
+                    type="text"
+                    id="signupUsername"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="signupPassword"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input
+                    type="email"
+                    id="signupEmail"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Contact Number</label>
+                <input
+                    type="text"
+                    id="signupContact"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <textarea
+                    id="signupAddress"
+                    rows="3"
+                    required></textarea>
+            </div>
+
+            <p id="signupMessage" class="message"></p>
+
+            <div class="product-buttons">
+                <button
+                    class="btn btn-primary"
+                    type="submit">
+                    Create Account
+                </button>
+
+                <button
+                    class="btn btn-secondary"
+                    type="button"
+                    onclick="closeModal('signupModal'); openLogin();">
+                    Back to Login
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- OWNER LOGIN -->
+
+<div
+id="ownerLoginModal"
+class="modal">
+
+<div class="modal-box">
+
+<button
+class="close"
+onclick="closeModal('ownerLoginModal')">
+×
+</button>
+
+<h2>
+Owner Login
+</h2>
+
+<p style="margin-bottom:20px;color:#666;">
+This login is only for the HVLN Shop owner.
+</p>
+
+<form id="ownerLoginForm">
+
+<div class="form-group">
+
+<label>
+Owner Username
+</label>
+
+<input
+type="text"
+id="ownerUsername"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Owner Password
+</label>
+
+<input
+type="password"
+id="ownerPassword"
+required>
+
+</div>
+
+<p
+id="ownerLoginMessage"
+class="message">
+</p>
+
+<button
+class="btn btn-primary"
+type="submit">
+
+Owner Login
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<!-- CART -->
+
+<div
+id="cartModal"
+class="modal">
+
+<div class="modal-box large">
+
+<button
+class="close"
+onclick="closeModal('cartModal')">
+×
+</button>
+
+<h2>
+Your Shopping Cart
+</h2>
+
+<div id="cartItems"></div>
+
+<div class="cart-total">
+
+Total:
+₱<span id="cartTotal">0.00</span>
+
+</div>
+
+<br>
+
+<button
+class="btn btn-primary"
+onclick="openCheckout()">
+
+Proceed to Checkout
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div
+id="checkoutModal"
+class="modal">
+
+<div class="modal-box">
+
+<button
+class="close"
+onclick="closeModal('checkoutModal')">
+×
+</button>
+
+<h2>
+Checkout
+</h2>
+
+<h3 style="margin:18px 0 8px;">Order Summary</h3>
+<div id="checkoutItems"></div>
+
+<form id="checkoutForm">
+
+<div class="form-group">
+
+<label>
+Full Name
+</label>
+
+<input
+type="text"
+id="checkoutName"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Contact Number
+</label>
+
+<input
+type="text"
+id="checkoutContact"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Email
+</label>
+
+<input
+type="email"
+id="checkoutEmail"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Delivery Address
+</label>
+
+<textarea
+id="checkoutAddress"
+rows="4"
+required></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Payment Method
+</label>
+
+<select
+id="checkoutPayment"
+required>
+
+<option value="">
+Select Payment
+</option>
+
+<option value="Cash on Delivery">
+Cash on Delivery
+</option>
+
+<option value="GCash">
+GCash
+</option>
+
+</select>
+
+</div>
+
+<p>
+
+Total:
+<strong>
+₱<span id="checkoutTotal">
+0.00
+</span>
+</strong>
+
+</p>
+
+<br>
+
+<button
+class="btn btn-primary"
+type="submit">
+
+Place Order
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<!-- INVENTORY EDIT -->
+
+<div
+id="inventoryModal"
+class="modal">
+
+<div class="modal-box">
+
+<button
+class="close"
+onclick="closeModal('inventoryModal')">
+×
+</button>
+
+<h2>
+Update Product
+</h2>
+
+<p
+id="inventoryProductName"
+style="margin-bottom:15px;">
+</p>
+
+<div class="form-group">
+
+<label>
+Product Name
+</label>
+
+<input
+type="text"
+id="inventoryProductNameInput"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Price
+</label>
+
+<input
+type="number"
+id="inventoryPrice"
+min="0"
+step="0.01"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Image URL / Path
+</label>
+
+<input
+type="text"
+id="inventoryImage"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Available Sizes (separate sizes with commas, e.g. 35-36, 37-38, 39-40)
+</label>
+
+<input type="text" id="inventorySizes" placeholder="35-36, 37-38, 39-40">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Stock Quantity
+</label>
+
+<input
+type="number"
+id="inventoryStock"
+min="0"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Supplier
+</label>
+
+<select id="inventorySupplier">
+
+<option value="">
+Select Supplier
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Expiration Date
+</label>
+
+<input
+type="date"
+id="inventoryExpiration">
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="saveInventory()">
+
+Save Product
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- RETURN -->
+
+<div
+id="returnModal"
+class="modal">
+
+<div class="modal-box">
+
+<button
+class="close"
+onclick="closeModal('returnModal')">
+×
+</button>
+
+<h2>
+Return Product
+</h2>
+
+<p
+id="returnOrderInfo"
+style="margin-bottom:15px;">
+</p>
+
+<div class="form-group">
+
+<label>
+Reason for Return
+</label>
+
+<textarea
+id="returnReason"
+rows="4"
+required></textarea>
+
+</div>
+
+<button
+class="btn btn-warning"
+onclick="submitReturnRequest()">
+
+Submit Return Request
+
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==========================================
+   DEFAULT PRODUCTS
+========================================== */
+
+const defaultProducts=[
+
+{
+id:1,
+name:"Havaianas Top",
+price:1500,
+category:"Flip-Flops",
+image:"Images/flipflop(marine blue).png",
+description:"Classic and durable Havaianas flip-flops.",
+sizes:"35-36, 37-38, 39-40, 41-42, 43-44",
+stock:20
+},
+
+{
+id:2,
+name:"Havaianas Slim",
+price:899,
+category:"Flip-Flops",
+image:"https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=800&q=80",
+description:"Slim and stylish flip-flops.",
+sizes:"35-36, 37-38, 39-40, 41-42",
+stock:15
+},
+
+{
+id:3,
+name:"Havaianas You",
+price:999,
+category:"Sandals",
+image:"https://images.unsplash.com/photo-1562273138-f46be4ebdf33?auto=format&fit=crop&w=800&q=80",
+description:"Stylish sandals for everyday use.",
+sizes:"35-36, 37-38, 39-40, 41-42",
+stock:12
+},
+
+{
+id:4,
+name:"Havaianas Casual",
+price:799,
+category:"Slippers",
+image:"https://images.unsplash.com/photo-1562273138-f46be4ebdf33?auto=format&fit=crop&w=800&q=80",
+description:"Simple and comfortable footwear.",
+sizes:"35-36, 37-38, 39-40, 41-42, 43-44",
+stock:18
+},
+
+{
+id:5,
+name:"Havaianas Street",
+price:1099,
+category:"Sandals",
+image:"https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=800&q=80",
+description:"Perfect for casual outdoor activities.",
+sizes:"35-36, 37-38, 39-40, 41-42",
+stock:10
+},
+
+{
+id:6,
+name:"Havaianas Classic",
+price:749,
+category:"Flip-Flops",
+image:"https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=800&q=80",
+description:"Classic and comfortable Havaianas.",
+sizes:"35-36, 37-38, 39-40, 41-42, 43-44",
+stock:25
+}
+
+];
+
+
+/* ==========================================
+   LOAD DATA
+========================================== */
+
+const savedProducts =
+JSON.parse(
+localStorage.getItem("hvlnProducts")
+);
+
+const savedDefaultSnapshot =
+JSON.parse(
+localStorage.getItem(
+"hvlnDefaultProductsSnapshot"
+)
+) || null;
+
+let products =
+JSON.parse(
+JSON.stringify(defaultProducts)
+);
+
+if(Array.isArray(savedProducts)){
+
+products =
+defaultProducts.map(def=>{
+
+const saved =
+savedProducts.find(
+p=>Number(p.id)===Number(def.id)
+);
+
+if(!saved)
+return {...def};
+
+const oldDef =
+savedDefaultSnapshot ?
+savedDefaultSnapshot.find(
+p=>Number(p.id)===Number(def.id)
+) : null;
+
+const merged={
+...def,
+...saved
+};
+
+if(!oldDef ||
+Number(saved.price)===
+Number(oldDef.price))
+merged.price=def.price;
+
+if(!oldDef ||
+saved.image===oldDef.image)
+merged.image=def.image;
+
+if(!oldDef ||
+saved.name===oldDef.name)
+merged.name=def.name;
+
+if(!oldDef ||
+saved.category===oldDef.category)
+merged.category=def.category;
+
+if(!oldDef ||
+saved.description===oldDef.description)
+merged.description=def.description;
+
+return merged;
+
+});
+
+}
+
+localStorage.setItem(
+"hvlnDefaultProductsSnapshot",
+JSON.stringify(defaultProducts)
+);
+
+
+let cart =
+JSON.parse(
+localStorage.getItem("hvlnCart")
+) || [];
+
+let orders =
+JSON.parse(
+localStorage.getItem("hvlnOrders")
+) || [];
+
+let customers =
+JSON.parse(
+localStorage.getItem("hvlnCustomers")
+) || [];
+
+let inventory =
+JSON.parse(
+localStorage.getItem("hvlnInventory")
+) || {};
+
+let suppliers =
+JSON.parse(
+localStorage.getItem("hvlnSuppliers")
+) || [];
+
+let productDetails =
+JSON.parse(
+localStorage.getItem("hvlnProductDetails")
+) || {};
+
+let currentUser =
+JSON.parse(
+localStorage.getItem("hvlnCurrentUser")
+) || null;
+
+let currentRole =
+localStorage.getItem(
+"hvlnCurrentRole"
+) || null;
+
+let posCart=[];
+
+let selectedInventoryProduct=null;
+
+let selectedReturnOrderId=null;
+
+
+/* ==========================================
+   REVIEWS DATA
+========================================== */
+
+let reviews =
+JSON.parse(
+localStorage.getItem("hvlnReviews")
+) || [
+
+{
+id:1,
+name:"Happy Customer",
+rating:5,
+comment:"Very comfortable and good quality!",
+date:""
+},
+
+{
+id:2,
+name:"Satisfied Buyer",
+rating:5,
+comment:"Fast and convenient ordering process.",
+date:""
+}
+
+];
+
+
+/* ==========================================
+   SAVE DATA
+========================================== */
+
+function saveData(){
+
+localStorage.setItem(
+"hvlnProducts",
+JSON.stringify(products)
+);
+
+localStorage.setItem(
+"hvlnCart",
+JSON.stringify(cart)
+);
+
+localStorage.setItem(
+"hvlnOrders",
+JSON.stringify(orders)
+);
+
+localStorage.setItem(
+"hvlnCustomers",
+JSON.stringify(customers)
+);
+
+localStorage.setItem(
+"hvlnInventory",
+JSON.stringify(inventory)
+);
+
+localStorage.setItem(
+"hvlnSuppliers",
+JSON.stringify(suppliers)
+);
+
+localStorage.setItem(
+"hvlnProductDetails",
+JSON.stringify(productDetails)
+);
+
+if(currentUser){
+
+localStorage.setItem(
+"hvlnCurrentUser",
+JSON.stringify(currentUser)
+);
+
+}else{
+
+localStorage.removeItem(
+"hvlnCurrentUser"
+);
+
+}
+
+if(currentRole){
+
+localStorage.setItem(
+"hvlnCurrentRole",
+currentRole
+);
+
+}else{
+
+localStorage.removeItem(
+"hvlnCurrentRole"
+);
+
+}
+
+}
+
+
+/* ==========================================
+   LOGIN SCREEN / SHOP ACCESS
+========================================== */
+function updateAuthScreen(){
+    const loggedIn =
+        (currentRole === "customer" || currentRole === "owner") &&
+        currentUser !== null;
+
+    const authScreen = document.getElementById("authScreen");
+    const shopMain = document.getElementById("shopMain");
+    const shopFooter = document.getElementById("shopFooter");
+    const shopNavigation = document.getElementById("shopNavigation");
+
+    if(authScreen) authScreen.style.display = loggedIn ? "none" : "flex";
+    if(shopMain) shopMain.style.display = loggedIn ? "block" : "none";
+    if(shopFooter) shopFooter.style.display = loggedIn ? "block" : "none";
+    if(shopNavigation) shopNavigation.style.display = loggedIn ? "flex" : "none";
+}
+
+
+/* ==========================================
+   SAVE REVIEWS
+========================================== */
+
+function saveReviews(){
+
+localStorage.setItem(
+"hvlnReviews",
+JSON.stringify(reviews)
+);
+
+}
+
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+function initializeInventory(){
+
+products.forEach(product=>{
+
+if(
+inventory[product.id]===undefined
+){
+
+inventory[product.id]=
+Number(product.stock)||0;
+
+}else{
+
+product.stock=
+Number(inventory[product.id]);
+
+}
+
+});
+
+saveData();
+
+}
+
+
+function initializeProductDetails(){
+
+products.forEach(product=>{
+
+if(!productDetails[product.id]){
+
+productDetails[product.id]={
+supplierId:"",
+expirationDate:""
+};
+
+}
+
+});
+
+saveData();
+
+}
+
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
+function showPage(pageId){
+
+const ownerPages=[
+"inventory",
+"pos"
+];
+
+if(
+ownerPages.includes(pageId) &&
+currentRole!=="owner"
+){
+
+openOwnerLogin();
+
+return;
+
+}
+
+if(
+pageId==="orders" &&
+currentRole!=="customer"
+){
+
+openLogin();
+
+return;
+
+}
+
+document.querySelectorAll(".page")
+.forEach(page=>
+page.classList.remove("active")
+);
+
+const page =
+document.getElementById(pageId);
+
+if(page)
+page.classList.add("active");
+
+
+if(pageId==="home")
+renderHomeProducts();
+
+
+if(pageId==="products")
+renderProducts();
+
+
+if(pageId==="reviews"){
+
+renderReviewForm();
+
+renderReviews();
+
+}
+
+
+if(pageId==="orders")
+renderOrders();
+
+
+if(pageId==="inventory"){
+
+renderInventory();
+
+renderCustomers();
+
+renderSuppliers();
+
+renderExpirationList();
+
+}
+
+
+if(pageId==="pos"){
+
+renderPOSProducts();
+
+renderPOSCart();
+
+renderPOSSalesHistory();
+
+}
+
+
+if(pageId==="account")
+renderAccount();
+
+}
+
+
+/* ==========================================
+   NAVIGATION UPDATE
+   CART HIDDEN FOR OWNER
+========================================== */
+
+function updateNavigation(){
+
+const myOrdersNav = document.getElementById("myOrdersNav");
+if(myOrdersNav){
+    myOrdersNav.style.display = currentRole === "customer" ? "inline-block" : "none";
+}
+
+document.querySelectorAll(".owner-only")
+.forEach(button=>{
+
+if(currentRole==="owner"){
+
+button.style.display="inline-block";
+
+}else{
+
+button.style.display="none";
+
+}
+
+});
+
+
+const cartButton =
+document.getElementById(
+"cartButton"
+);
+
+if(cartButton){
+
+if(currentRole==="owner"){
+
+cartButton.style.display="none";
+
+}else{
+
+cartButton.style.display="inline-block";
+
+}
+
+}
+
+}
+
+
+/* ==========================================
+   INVENTORY TABS
+========================================== */
+
+function showInventorySection(
+sectionId,
+button
+){
+
+document.querySelectorAll(
+".inventory-section"
+).forEach(section=>
+section.classList.remove("active")
+);
+
+document.querySelectorAll(
+".inventory-tab"
+).forEach(tab=>
+tab.classList.remove("active")
+);
+
+const section =
+document.getElementById(
+sectionId
+);
+
+if(section)
+section.classList.add("active");
+
+if(button)
+button.classList.add("active");
+
+
+if(sectionId==="productList")
+renderInventory();
+
+if(sectionId==="customerList")
+renderCustomers();
+
+if(sectionId==="supplierList")
+renderSuppliers();
+
+if(sectionId==="expirationList")
+renderExpirationList();
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHTML(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* ==========================================
+   PRODUCT CARD
+========================================== */
+
+function productHTML(product){
+
+const stock =
+Number(
+inventory[product.id] ??
+product.stock ??
+0
+);
+
+return`
+
+<div class="product-card">
+
+<img
+src="${escapeHTML(product.image_url || product.image || '')}"
+alt="${escapeHTML(product.product_name || product.name || 'HVLN Shop')}"
+onerror="
+this.onerror=null;
+this.src='https://placehold.co/800x600?text=HVLN+Shop';
+">
+
+<div class="product-info">
+
+<span class="category">
+${escapeHTML(product.category)}
+</span>
+
+<h3>
+${escapeHTML(product.name)}
+</h3>
+
+<p>
+${escapeHTML(product.description)}
+</p>
+
+<div class="price">
+₱${Number(product.price).toFixed(2)}
+</div>
+
+<div class="stock">
+Stock: ${stock}
+</div>
+
+<div class="form-group">
+<label for="size-${product.id}">Size</label>
+<select id="size-${product.id}" required>
+${(String(product.sizes||"35-36, 37-38, 39-40, 41-42, 43-44").split(",").map(size=>size.trim()).filter(Boolean)).map(size=>`<option value="${escapeHTML(size)}">${escapeHTML(size)}</option>`).join("")}
+</select>
+</div>
+
+<div class="product-buttons">
+
+<button
+class="btn btn-primary"
+onclick="addToCart(${product.id}, document.getElementById('size-${product.id}').value)"
+${stock<=0?"disabled":""}>
+
+Add to Cart
+
+</button>
+
+<button
+class="btn btn-warning"
+onclick="buyNow(${product.id}, document.getElementById('size-${product.id}').value)"
+${stock<=0?"disabled":""}>
+
+Buy Now
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* ==========================================
+   PRODUCT DISPLAY
+========================================== */
+
+function renderHomeProducts(){
+
+const container =
+document.getElementById(
+"homeProducts"
+);
+
+container.innerHTML="";
+
+products
+.slice(0,4)
+.forEach(product=>{
+
+container.innerHTML +=
+productHTML(product);
+
+});
+
+}
+
+
+function renderProducts(list=products){
+
+const container =
+document.getElementById(
+"productGrid"
+);
+
+container.innerHTML="";
+
+if(list.length === 0){
+    container.innerHTML = "<p>No products found in this category.</p>";
+    return;
+}
+
+list.forEach(product=>{
+
+container.innerHTML +=
+productHTML(product);
+
+});
+
+}
+
+function filterCategory(category){
+    showPage("products");
+    if(!category || category === "All"){
+        renderProducts(products);
+        return;
+    }
+    const filtered = products.filter(
+        product => String(product.category || "").toLowerCase() === String(category).toLowerCase()
+    );
+    renderProducts(filtered);
+}
+/* ==========================================
+   LOAD PRODUCTS FROM MYSQL DATABASE
+========================================== */
+
+
+async function loadProductsFromDatabase(){
+
+    try{
+
+        const response = await fetch("api/get_products.php");
+
+        if(!response.ok){
+            throw new Error("Unable to connect to Products API.");
+        }
+
+        const data = await response.json();
+
+        if(!data.success || !Array.isArray(data.products)){
+            throw new Error("Invalid products data.");
+        }
+
+        products = data.products.map(item => ({
+
+            id: Number(item.id),
+
+            name: item.product_name || item.name || "Unnamed Product",
+
+            category: item.category || "Uncategorized",
+
+            price: Number(item.price),
+
+            image: item.image_url || item.image || "",
+
+            description: "Quality footwear from HVLN Shop.",
+
+            sizes: item.sizes || "6,7,8,9,10",
+
+            stock: Number(item.stock) || 0
+
+        }));
+
+        console.log("PRODUCT DATA:", products);
+
+        products.forEach(product => {
+            inventory[product.id] = product.stock;
+        });
+
+        saveData();
+
+        renderHomeProducts();
+        renderProducts();
+
+        if(currentRole === "owner"){
+            renderPOSProducts();
+            renderInventory();
+            renderExpirationList();
+        }
+
+        console.log("Products successfully loaded from MySQL!");
+
+    }catch(error){
+
+        console.warn("Using local products fallback (Database API unavailable):", error);
+
+    }
+
+}
+
+
+
+
+
+/* ==========================================
+   CART
+========================================== */
+
+function addToCart(productId, selectedSize=""){
+
+if(currentRole==="owner"){
+
+alert(
+"Cart is only available for customers."
+);
+
+return;
+
+}
+
+const product =
+products.find(
+p=>p.id===productId
+);
+
+if(!product)return;
+
+const stock =
+Number(
+inventory[product.id]||0
+);
+
+if(stock<=0){
+
+alert(
+"This product is out of stock."
+);
+
+return;
+
+}
+
+const size = selectedSize || (String(product.sizes||"35-36").split(",")[0].trim());
+
+const existing =
+cart.find(
+item=>
+item.productId===productId && (item.size||"")===size
+);
+
+if(existing){
+
+if(
+existing.quantity>=stock
+){
+
+alert(
+"You cannot add more than the available stock."
+);
+
+return;
+
+}
+
+existing.quantity++;
+
+}else{
+
+cart.push({
+
+productId,
+
+size,
+
+quantity:1
+
+});
+
+}
+
+saveData();
+
+updateCartCount();
+
+alert(
+product.name+
+" added to cart."
+);
+
+}
+
+
+function updateCartCount(){
+
+const count =
+cart.reduce(
+(total,item)=>
+total+Number(item.quantity),
+0
+);
+
+document.getElementById(
+"cartCount"
+).textContent=count;
+
+}
+
+
+function openCart(){
+
+if(currentRole==="owner"){
+
+alert(
+"Cart is not available for the owner."
+);
+
+return;
+
+}
+
+renderCart();
+
+document.getElementById(
+"cartModal"
+).classList.add("show");
+
+}
+
+
+function renderCart(){
+
+const container =
+document.getElementById(
+"cartItems"
+);
+
+container.innerHTML="";
+
+let total=0;
+
+if(cart.length===0){
+
+container.innerHTML=
+"<p>Your cart is empty.</p>";
+
+document.getElementById(
+"cartTotal"
+).textContent="0.00";
+
+return;
+
+}
+
+cart.forEach(
+(item,index)=>{
+
+const product =
+products.find(
+p=>p.id===item.productId
+);
+
+if(!product)return;
+
+const subtotal =
+Number(product.price)*
+Number(item.quantity);
+
+total+=subtotal;
+
+container.innerHTML += `
+
+<div class="cart-item">
+
+<img class="cart-product-image"
+src="${escapeHTML(product.image)}"
+alt="${escapeHTML(product.name)}"
+onerror="this.onerror=null;this.src='https://via.placeholder.com/100?text=HVLN';">
+
+<div class="cart-item-info">
+
+<strong>
+${escapeHTML(product.name)}
+</strong>
+
+<p>Size: ${escapeHTML(item.size||"Not selected")}</p>
+
+<p>
+₱${Number(product.price).toFixed(2)}
+</p>
+
+</div>
+
+<div class="quantity-controls">
+
+<button
+onclick="changeQuantity(${index},-1)">
+-
+</button>
+
+<span>
+${item.quantity}
+</span>
+
+<button
+onclick="changeQuantity(${index},1)">
++
+</button>
+
+</div>
+
+<strong>
+₱${subtotal.toFixed(2)}
+</strong>
+
+<button
+class="btn btn-danger"
+onclick="removeFromCart(${index})">
+
+Remove
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"cartTotal"
+).textContent=
+total.toFixed(2);
+
+}
+
+
+function changeQuantity(index,change){
+
+const item=cart[index];
+
+if(!item)return;
+
+const stock =
+Number(
+inventory[item.productId]||0
+);
+
+const newQuantity =
+Number(item.quantity)+
+Number(change);
+
+if(newQuantity<=0){
+
+cart.splice(index,1);
+
+}else if(newQuantity>stock){
+
+alert(
+"Not enough stock available."
+);
+
+}else{
+
+item.quantity=newQuantity;
+
+}
+
+saveData();
+
+renderCart();
+
+updateCartCount();
+
+}
+
+
+function removeFromCart(index){
+
+cart.splice(index,1);
+
+saveData();
+
+renderCart();
+
+updateCartCount();
+
+}
+
+
+/* ==========================================
+   BUY NOW
+========================================== */
+
+function buyNow(productId, selectedSize=""){
+
+if(currentRole==="owner"){
+
+alert(
+"Buying products is only available for customers."
+);
+
+return;
+
+}
+
+const product =
+products.find(
+p=>p.id===productId
+);
+
+if(!product)return;
+
+const stock =
+Number(
+inventory[productId]||0
+);
+
+if(stock<=0){
+
+alert(
+"This product is out of stock."
+);
+
+return;
+
+}
+
+cart=[{
+
+productId,
+
+size:selectedSize || (String(product.sizes||"35-36").split(",")[0].trim()),
+
+quantity:1
+
+}];
+
+saveData();
+
+openCheckout();
+
+}
+
+
+/* ==========================================
+   CUSTOMER LOGIN
+========================================== */
+
+
+
+function openLogin(){
+
+    document.getElementById(
+        "loginModal"
+    ).classList.add("show");
+
+    document.getElementById(
+        "loginMessage"
+    ).textContent = "";
+
+}
+
+document.getElementById(
+    "loginForm"
+).addEventListener(
+    "submit",
+    async function(e){
+
+        e.preventDefault();
+
+        const username = document.getElementById(
+            "loginUsername"
+        ).value.trim();
+
+        const password = document.getElementById(
+            "loginPassword"
+        ).value;
+
+        const message = document.getElementById(
+            "loginMessage"
+        );
+
+        try {
+
+            const response = await fetch(
+                "api/login_customer.php",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            if(!response.ok || !result.success){
+
+                message.textContent =
+                    result.message || "Invalid customer username or password.";
+
+                message.className = "message error";
+
+                return;
+            }
+
+            const customer = result.customer;
+
+           currentUser = {
+    id: customer.customer_id,
+    name: customer.full_name,
+    username: customer.username,
+    email: customer.email,
+    contact: customer.contact_number,
+    address: customer.address
+};
+
+            currentRole = "customer";
+
+            saveData();
+
+            updateNavigation();
+            updateAuthScreen();
+
+            closeModal("loginModal");
+
+            document.getElementById("loginForm").reset();
+
+            alert("Customer login successful!");
+
+            showPage("home");
+
+        } catch(error) {
+
+            console.warn("Database login unavailable, checking local customers:", error);
+
+            const localCustomer = customers.find(
+                c => c.username === username && (!c.password || c.password === password)
+            );
+
+            if (localCustomer) {
+                currentUser = localCustomer;
+                currentRole = "customer";
+                saveData();
+                updateNavigation();
+                updateAuthScreen();
+                closeModal("loginModal");
+                document.getElementById("loginForm").reset();
+                alert("Customer login successful!");
+                showPage("home");
+                return;
+            }
+
+            message.textContent =
+                "Invalid username/password or unable to connect to the database.";
+
+            message.className = "message error";
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   SIGNUP
+========================================== */
+
+function openSignup(){
+
+    closeModal("loginModal");
+
+    document.getElementById(
+        "signupModal"
+    ).classList.add("show");
+
+}
+
+const signupForm = document.getElementById("signupForm");
+
+if (signupForm) {
+    signupForm.addEventListener(
+    "submit",
+    async function(e){
+
+        e.preventDefault();
+
+        const name = document.getElementById("signupName").value.trim();
+        const username = document.getElementById("signupUsername").value.trim();
+        const password = document.getElementById("signupPassword").value;
+        const email = document.getElementById("signupEmail").value.trim();
+        const contact = document.getElementById("signupContact").value.trim();
+        const address = document.getElementById("signupAddress").value.trim();
+
+        const message = document.getElementById("signupMessage");
+
+        try {
+
+            const response = await fetch(
+                "api/register_customer.php",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        full_name: name,
+                        username: username,
+                        password: password,
+                        email: email,
+                        contact: contact,
+                        address: address
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            if(!response.ok || !result.success){
+
+                message.textContent =
+                    result.message || "Registration failed.";
+
+                message.className = "message error";
+
+                return;
+            }
+
+            const customer = {
+                id: result.id || Date.now(),
+                customerNumber: "CUST-" + String(customers.length + 1).padStart(4, "0"),
+                name: name,
+                username: username,
+                password: password,
+                email: email,
+                contact: contact,
+                address: address
+            };
+
+            customers.push(customer);
+
+            currentUser = customer;
+            currentRole = "customer";
+
+            saveData();
+
+            updateNavigation();
+            updateAuthScreen();
+
+            closeModal("signupModal");
+
+            document.getElementById("signupForm").reset();
+
+            alert("Customer account created successfully!");
+
+            showPage("home");
+
+        } catch(error) {
+
+            console.warn("Database registration unavailable, saving locally:", error);
+
+            if (customers.some(c => c.username === username)) {
+                message.textContent = "Username already exists.";
+                message.className = "message error";
+                return;
+            }
+
+            const customer = {
+                id: Date.now(),
+                customerNumber: "CUST-" + String(customers.length + 1).padStart(4, "0"),
+                name: name,
+                username: username,
+                password: password,
+                email: email,
+                contact: contact,
+                address: address
+            };
+
+            customers.push(customer);
+            currentUser = customer;
+            currentRole = "customer";
+
+            saveData();
+            updateNavigation();
+            updateAuthScreen();
+            closeModal("signupModal");
+            document.getElementById("signupForm").reset();
+            alert("Customer account created successfully!");
+            showPage("home");
+
+        }
+    }
+    );
+}
+
+
+
+/* ==========================================
+   CUSTOMER LOGOUT
+========================================== */
+
+function customerLogout(){
+
+currentUser=null;
+
+currentRole=null;
+
+localStorage.removeItem(
+"hvlnCurrentUser"
+);
+
+localStorage.removeItem(
+"hvlnCurrentRole"
+);
+
+updateNavigation();
+updateAuthScreen();
+
+alert(
+"Customer logged out successfully."
+);
+
+}
+
+
+/* ==========================================
+   OWNER LOGIN
+========================================== */
+
+function openOwnerLogin(){
+
+    document.getElementById(
+        "ownerLoginModal"
+    ).classList.add("show");
+
+    document.getElementById(
+        "ownerLoginMessage"
+    ).textContent = "";
+
+    document.getElementById(
+        "ownerLoginMessage"
+    ).className = "message";
+
+}
+
+document.getElementById(
+    "ownerLoginForm"
+).addEventListener(
+    "submit",
+    function(e){
+
+        e.preventDefault();
+
+        const username =
+            document.getElementById(
+                "ownerUsername"
+            ).value.trim();
+
+        const password =
+            document.getElementById(
+                "ownerPassword"
+            ).value;
+
+        const message =
+            document.getElementById(
+                "ownerLoginMessage"
+            );
+
+        if(
+            username === "anthony" &&
+            password === "ADMINBSCS"
+        ){
+
+            currentUser = {
+                name: "HVLN Shop Owner",
+                username: "owner",
+                role: "owner"
+            };
+
+            currentRole = "owner";
+
+            saveData();
+
+            updateNavigation();
+            updateAuthScreen();
+
+            closeModal("ownerLoginModal");
+
+            document.getElementById(
+                "ownerLoginForm"
+            ).reset();
+
+            alert("Owner login successful!");
+
+            showPage("inventory");
+
+        } else {
+
+            message.textContent =
+                "Invalid owner username or password.";
+
+            message.className = "message error";
+
+        }
+
+    }
+);
+
+
+
+/* ==========================================
+   OWNER LOGOUT
+========================================== */
+
+function ownerLogout(){
+
+currentUser=null;
+
+currentRole=null;
+
+localStorage.removeItem(
+"hvlnCurrentUser"
+);
+
+localStorage.removeItem(
+"hvlnCurrentRole"
+);
+
+updateNavigation();
+updateAuthScreen();
+
+alert(
+"Owner logged out successfully."
+);
+
+}
+
+
+/* ==========================================
+   ACCOUNT
+========================================== */
+
+function renderAccount(){
+
+const container =
+document.getElementById(
+"accountContent"
+);
+
+if(!currentUser){
+
+container.innerHTML=`
+
+<div class="account-details">
+
+<h2>
+Welcome to HVLN Shop
+</h2>
+
+<p style="margin:15px 0;">
+
+Please login to access your account.
+
+</p>
+
+<button
+class="btn btn-primary"
+onclick="openLogin()">
+
+Customer Login
+
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+if(currentRole==="owner"){
+
+container.innerHTML=`
+
+<div class="account-details">
+
+<h2>
+Owner Account
+</h2>
+
+<div class="account-row">
+
+<strong>Name:</strong>
+HVLN Shop Owner
+
+</div>
+
+<div class="account-row">
+
+<strong>Username:</strong>
+anthony
+
+</div>
+
+<div class="account-row">
+
+<strong>Role:</strong>
+Website Owner
+
+</div>
+
+<button
+class="btn btn-danger logout-account"
+onclick="ownerLogout()">
+
+Owner Logout
+
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+container.innerHTML=`
+
+<div class="account-details">
+
+<h2>
+Customer Account
+</h2>
+
+<div class="account-row">
+
+<strong>Name:</strong>
+${escapeHTML(currentUser.name)}
+
+</div>
+
+<div class="account-row">
+
+<strong>Username:</strong>
+${escapeHTML(currentUser.username)}
+
+</div>
+
+<div class="account-row">
+
+<strong>Email:</strong>
+${escapeHTML(currentUser.email)}
+
+</div>
+
+<div class="account-row">
+
+<strong>Contact:</strong>
+${escapeHTML(currentUser.contact)}
+
+</div>
+
+<div class="account-row">
+
+<strong>Address:</strong>
+${escapeHTML(currentUser.address)}
+
+</div>
+
+<button
+class="btn btn-danger logout-account"
+onclick="customerLogout()">
+
+Customer Logout
+
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* ==========================================
+   CHECKOUT
+========================================== */
+
+function openCheckout(){
+
+if(currentRole!=="customer"){
+
+closeModal("cartModal");
+
+openLogin();
+
+return;
+
+}
+
+if(cart.length===0){
+
+alert(
+"Your cart is empty."
+);
+
+return;
+
+}
+
+document.getElementById(
+"checkoutName"
+).value=
+currentUser.name||"";
+
+document.getElementById(
+"checkoutEmail"
+).value=
+currentUser.email||"";
+
+document.getElementById(
+"checkoutContact"
+).value=
+currentUser.contact||"";
+
+document.getElementById(
+"checkoutAddress"
+).value=
+currentUser.address||"";
+
+let total=0;
+
+for(const item of cart){
+
+const product =
+products.find(
+p=>p.id===item.productId
+);
+
+if(!product)continue;
+
+const stock =
+Number(
+inventory[product.id]||0
+);
+
+if(item.quantity>stock){
+
+alert(
+"Not enough stock for "+
+product.name
+);
+
+return;
+
+}
+
+total +=
+Number(product.price)*
+Number(item.quantity);
+
+}
+
+document.getElementById(
+"checkoutTotal"
+).textContent=
+total.toFixed(2);
+
+renderCheckoutSummary();
+
+closeModal("cartModal");
+
+document.getElementById(
+"checkoutModal"
+).classList.add("show");
+
+}
+
+
+function renderCheckoutSummary(){
+
+const container = document.getElementById("checkoutItems");
+if(!container) return;
+
+container.innerHTML = "";
+
+let total = 0;
+
+cart.forEach(item=>{
+    const product = products.find(p=>Number(p.id)===Number(item.productId));
+    if(!product) return;
+
+    const subtotal = Number(product.price) * Number(item.quantity);
+    total += subtotal;
+
+    container.innerHTML += `
+        <div class="checkout-item">
+            <img src="${escapeHTML(product.image)}"
+                 alt="${escapeHTML(product.name)}"
+                 onerror="this.onerror=null;this.src='https://via.placeholder.com/100?text=HVLN';">
+            <div class="checkout-item-info">
+                <strong>${escapeHTML(product.name)}</strong>
+                <p>Size: ${escapeHTML(item.size || "Not selected")}</p>
+                <small>Quantity: ${Number(item.quantity)}</small>
+            </div>
+            <strong>₱${subtotal.toFixed(2)}</strong>
+        </div>
+    `;
+});
+
+document.getElementById("checkoutTotal").textContent = total.toFixed(2);
+
+}
+
+
+document.getElementById(
+"checkoutForm"
+).addEventListener(
+"submit",
+function(e){
+
+e.preventDefault();
+
+if(currentRole!=="customer"){
+
+alert(
+"Please login as a customer first."
+);
+
+return;
+
+}
+
+if(cart.length===0){
+
+alert(
+"Your cart is empty."
+);
+
+return;
+
+}
+
+const name =
+document.getElementById(
+"checkoutName"
+).value.trim();
+
+const contact =
+document.getElementById(
+"checkoutContact"
+).value.trim();
+
+const email =
+document.getElementById(
+"checkoutEmail"
+).value.trim();
+
+const address =
+document.getElementById(
+"checkoutAddress"
+).value.trim();
+
+const payment =
+document.getElementById(
+"checkoutPayment"
+).value;
+
+if(
+!name||
+!contact||
+!email||
+!address||
+!payment
+){
+
+alert(
+"Please complete all checkout information."
+);
+
+return;
+
+}
+
+let total=0;
+
+const orderItems=[];
+
+for(const item of cart){
+
+const product =
+products.find(
+p=>p.id===item.productId
+);
+
+if(!product)continue;
+
+const stock =
+Number(
+inventory[product.id]||0
+);
+
+if(item.quantity>stock){
+
+alert(
+"Not enough stock for "+
+product.name
+);
+
+return;
+
+}
+
+const subtotal =
+Number(product.price)*
+Number(item.quantity);
+
+total+=subtotal;
+
+orderItems.push({
+
+productId:product.id,
+
+name:product.name,
+
+image:product.image,
+
+size:item.size||"Not selected",
+
+price:product.price,
+
+quantity:item.quantity,
+
+subtotal
+
+});
+
+}
+
+const order={
+
+id:"ORD-"+Date.now(),
+
+date:new Date().toLocaleString(),
+
+customerUsername:
+currentUser.username,
+
+buyer:{
+
+name,
+
+username:
+currentUser.username,
+
+email,
+
+contact,
+
+address
+
+},
+
+items:orderItems,
+
+total,
+
+payment,
+
+status:"Pending"
+
+};
+
+orders.unshift(order);
+
+
+cart.forEach(item=>{
+
+inventory[item.productId]=
+Number(
+inventory[item.productId]||0
+)-
+Number(item.quantity);
+
+const product =
+products.find(
+p=>p.id===item.productId
+);
+
+if(product)
+product.stock=
+inventory[item.productId];
+
+});
+
+
+const customer =
+customers.find(
+c=>
+c.username===
+currentUser.username
+);
+
+if(customer){
+
+customer.name=name;
+
+customer.email=email;
+
+customer.contact=contact;
+
+customer.address=address;
+
+currentUser=customer;
+
+}
+
+cart=[];
+
+saveData();
+
+updateCartCount();
+
+closeModal("checkoutModal");
+
+document.getElementById(
+"checkoutForm"
+).reset();
+
+alert(
+"Order placed successfully!\n\nOrder ID: "+
+order.id
+);
+
+showPage("orders");
+
+}
+);
+
+
+/* ==========================================
+   ORDERS
+========================================== */
+
+function renderOrders(){
+
+const container =
+document.getElementById(
+"ordersContainer"
+);
+
+container.innerHTML="";
+
+if(!currentUser){
+
+container.innerHTML=`
+
+<div class="account-details">
+
+<p>
+Please login as a customer to view your orders.
+</p>
+
+<br>
+
+<button
+class="btn btn-primary"
+onclick="openLogin()">
+
+Customer Login
+
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+let visibleOrders;
+
+if(currentRole==="owner")
+visibleOrders=orders;
+else
+visibleOrders=
+orders.filter(
+order=>
+order.customerUsername===
+currentUser.username
+);
+
+if(visibleOrders.length===0){
+
+container.innerHTML=
+"<p>No orders found.</p>";
+
+return;
+
+}
+
+visibleOrders.forEach(order=>{
+
+let itemsHTML="";
+
+order.items.forEach(item=>{
+
+const orderedProduct = products.find(p=>Number(p.id)===Number(item.productId));
+const orderedImage = item.image || (orderedProduct ? orderedProduct.image : "");
+
+itemsHTML+=`
+
+<div class="order-item">
+<img src="${escapeHTML(orderedImage)}"
+alt="${escapeHTML(item.name)}"
+onerror="this.onerror=null;this.src='https://via.placeholder.com/100?text=HVLN';">
+<div class="order-item-info">
+<strong>${escapeHTML(item.name)}</strong>
+<p>${item.size ? "Size: "+escapeHTML(item.size)+" · " : ""}Qty: ${item.quantity}</p>
+<small>₱${Number(item.subtotal).toFixed(2)}</small>
+</div>
+</div>
+
+`;
+
+});
+
+container.innerHTML+=`
+
+<div class="order-card">
+
+<div class="order-header">
+
+<div>
+
+<strong>
+${escapeHTML(order.id)}
+</strong>
+
+<p>
+${escapeHTML(order.date)}
+</p>
+
+</div>
+
+<span class="status">
+${escapeHTML(order.status)}
+</span>
+
+</div>
+
+<p>
+<strong>Customer:</strong>
+${escapeHTML(order.buyer.name)}
+</p>
+
+<p>
+<strong>Payment:</strong>
+${escapeHTML(order.payment)}
+</p>
+
+${
+order.returnReason
+?
+`
+
+<p style="margin-top:8px;">
+
+<strong>
+Return Reason:
+</strong>
+
+${escapeHTML(
+order.returnReason
+)}
+
+</p>
+
+`
+:
+""
+}
+
+<br>
+
+${itemsHTML}
+
+<div class="total">
+
+Total:
+₱${Number(order.total).toFixed(2)}
+
+</div>
+
+${
+currentRole==="customer"
+?
+`
+
+<br>
+
+<button
+class="btn btn-warning"
+onclick="requestReturn('${order.id}')">
+
+Return Order
+
+</button>
+
+`
+:
+""
+}
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* ==========================================
+   RETURN
+========================================== */
+
+function requestReturn(orderId){
+
+const order =
+orders.find(
+o=>o.id===orderId
+);
+
+if(!order)return;
+
+if(
+currentRole!=="customer" ||
+order.customerUsername!==
+currentUser.username
+){
+
+alert(
+"You cannot return this order."
+);
+
+return;
+
+}
+
+selectedReturnOrderId=orderId;
+
+document.getElementById(
+"returnOrderInfo"
+).textContent=
+"Order: "+orderId;
+
+document.getElementById(
+"returnReason"
+).value="";
+
+document.getElementById(
+"returnModal"
+).classList.add("show");
+
+}
+
+
+function submitReturnRequest(){
+
+const reason =
+document.getElementById(
+"returnReason"
+).value.trim();
+
+if(!reason){
+
+alert(
+"Please enter a reason for the return."
+);
+
+return;
+
+}
+
+const order =
+orders.find(
+o=>o.id===selectedReturnOrderId
+);
+
+if(!order)return;
+
+order.status=
+"Return Requested";
+
+order.returnReason=
+reason;
+
+order.returnDate=
+new Date().toLocaleString();
+
+saveData();
+
+closeModal("returnModal");
+
+renderOrders();
+
+alert(
+"Return request submitted successfully."
+);
+
+}
+
+
+/* ==========================================
+   INVENTORY PRODUCT LIST
+========================================== */
+
+function renderInventory(){
+
+if(currentRole!=="owner")
+return;
+
+const tbody =
+document.getElementById(
+"inventoryTable"
+);
+
+tbody.innerHTML="";
+
+products.forEach(product=>{
+
+const stock =
+Number(
+inventory[product.id] ??
+product.stock ??
+0
+);
+
+const details =
+productDetails[product.id]||{};
+
+const supplier =
+suppliers.find(
+s=>
+String(s.id)===
+String(details.supplierId)
+);
+
+const supplierName =
+supplier ?
+supplier.name :
+"No Supplier";
+
+const expiration =
+details.expirationDate ||
+"No expiration";
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>
+
+<img
+src="${escapeHTML(product.image)}"
+alt="${escapeHTML(product.name)}"
+style="
+width:55px;
+height:55px;
+object-fit:cover;
+border-radius:8px;
+"
+onerror="
+this.onerror=null;
+this.src='https://via.placeholder.com/100?text=HVLN';
+">
+
+</td>
+
+<td>
+${escapeHTML(product.name)}
+</td>
+
+<td>
+${escapeHTML(product.category)}
+</td>
+
+<td>
+₱${Number(product.price).toFixed(2)}
+</td>
+
+<td>
+${escapeHTML(product.sizes||"35-36, 37-38, 39-40, 41-42, 43-44")}
+</td>
+
+<td>
+${stock}
+</td>
+
+<td>
+${escapeHTML(supplierName)}
+</td>
+
+<td>
+${escapeHTML(expiration)}
+</td>
+
+<td>
+
+<button
+class="btn btn-primary"
+onclick="openInventoryEditor(${product.id})">
+
+Edit
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* ==========================================
+   EDIT PRODUCT
+========================================== */
+
+function openInventoryEditor(productId){
+
+if(currentRole!=="owner"){
+
+openOwnerLogin();
+
+return;
+
+}
+
+selectedInventoryProduct=
+Number(productId);
+
+const product =
+products.find(
+p=>
+Number(p.id)===
+Number(productId)
+);
+
+if(!product)return;
+
+const details =
+productDetails[productId]||{};
+
+document.getElementById(
+"inventoryProductName"
+).textContent=
+"Product: "+product.name;
+
+document.getElementById(
+"inventoryProductNameInput"
+).value=
+product.name||"";
+
+document.getElementById(
+"inventoryPrice"
+).value=
+Number(product.price)||0;
+
+document.getElementById(
+"inventoryImage"
+).value=
+product.image||"";
+
+document.getElementById(
+"inventorySizes"
+).value=product.sizes||"35-36, 37-38, 39-40, 41-42, 43-44";
+
+document.getElementById(
+"inventoryStock"
+).value=
+Number(
+inventory[productId]??
+product.stock??
+0
+);
+
+renderSupplierSelect(
+details.supplierId||""
+);
+
+document.getElementById(
+"inventoryExpiration"
+).value=
+details.expirationDate||"";
+
+document.getElementById(
+"inventoryModal"
+).classList.add("show");
+
+}
+
+
+/* ==========================================
+   SAVE PRODUCT
+========================================== */
+
+
+async function saveInventory(){
+
+    if(currentRole !== "owner"){
+        openOwnerLogin();
+        return;
+    }
+
+    const product = products.find(
+        p => Number(p.id) === Number(selectedInventoryProduct)
+    );
+
+    if(!product){
+        alert("Product not found.");
+        return;
+    }
+
+    const name = document.getElementById(
+        "inventoryProductNameInput"
+    ).value.trim();
+
+    const price = Number(
+        document.getElementById("inventoryPrice").value
+    );
+
+    const image = document.getElementById(
+        "inventoryImage"
+    ).value.trim();
+
+    const sizes = document.getElementById(
+        "inventorySizes"
+    ).value.split(",")
+     .map(size => size.trim())
+     .filter(Boolean)
+     .join(", ");
+
+    const stock = Number(
+        document.getElementById("inventoryStock").value
+    );
+
+    const supplierId = document.getElementById(
+        "inventorySupplier"
+    ).value;
+
+    const expirationDate = document.getElementById(
+        "inventoryExpiration"
+    ).value;
+
+    if(!name){
+        alert("Please enter a product name.");
+        return;
+    }
+
+    if(!Number.isFinite(price) || price < 0){
+        alert("Enter a valid price.");
+        return;
+    }
+
+    if(!image){
+        alert("Please enter an image URL.");
+        return;
+    }
+
+    if(!Number.isInteger(stock) || stock < 0){
+        alert("Enter a valid whole-number stock quantity.");
+        return;
+    }
+
+    try{
+
+        const response = await fetch("api/update_product.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+          body: JSON.stringify({
+    id: Number(product.id),
+    name: name,
+    price: price,
+    image: image,
+    sizes: sizes || "35-36, 37-38, 39-40, 41-42, 43-44",
+    stock: stock,
+    supplierId: supplierId,
+    expirationDate: expirationDate
+})
+        });
+
+        const result = await response.json();
+
+        if(!response.ok || !result.success){
+            throw new Error(
+                result.message || "Unable to update product."
+            );
+        }
+
+        // Update the website after successful database update
+        product.name = name;
+        product.price = price;
+        product.image = image;
+        product.sizes = sizes || "35-36, 37-38, 39-40, 41-42, 43-44";
+        product.stock = stock;
+
+        inventory[selectedInventoryProduct] = stock;
+
+        productDetails[selectedInventoryProduct] = {
+            supplierId,
+            expirationDate
+        };
+
+        saveData();
+
+        closeModal("inventoryModal");
+
+        renderInventory();
+        renderExpirationList();
+        renderProducts();
+        renderHomeProducts();
+        renderPOSProducts();
+        renderCart();
+
+        alert("Product information updated successfully!");
+
+    }catch(error){
+
+        console.warn("MySQL update unavailable, saving product changes locally:", error);
+
+        product.name = name;
+        product.price = price;
+        product.image = image;
+        product.sizes = sizes || "35-36, 37-38, 39-40, 41-42, 43-44";
+        product.stock = stock;
+
+        inventory[selectedInventoryProduct] = stock;
+
+        productDetails[selectedInventoryProduct] = {
+            supplierId,
+            expirationDate
+        };
+
+        saveData();
+
+        closeModal("inventoryModal");
+
+        renderInventory();
+        renderExpirationList();
+        renderProducts();
+        renderHomeProducts();
+        renderPOSProducts();
+        renderCart();
+
+        alert("Product information updated locally!");
+
+    }
+
+}
+
+
+/* ==========================================
+   SUPPLIER SELECT
+========================================== */
+
+function renderSupplierSelect(
+selectedId=""
+){
+
+const select =
+document.getElementById(
+"inventorySupplier"
+);
+
+select.innerHTML=`
+
+<option value="">
+Select Supplier
+</option>
+
+`;
+
+suppliers.forEach(supplier=>{
+
+const option =
+document.createElement(
+"option"
+);
+
+option.value=
+supplier.id;
+
+option.textContent=
+supplier.name;
+
+if(
+String(supplier.id)===
+String(selectedId)
+)
+option.selected=true;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+/* ==========================================
+   ADD SUPPLIER
+========================================== */
+
+function addSupplier(){
+
+if(currentRole!=="owner"){
+
+openOwnerLogin();
+
+return;
+
+}
+
+const name =
+document.getElementById(
+"supplierName"
+).value.trim();
+
+const contact =
+document.getElementById(
+"supplierContact"
+).value.trim();
+
+const email =
+document.getElementById(
+"supplierEmail"
+).value.trim();
+
+const address =
+document.getElementById(
+"supplierAddress"
+).value.trim();
+
+if(!name){
+
+alert(
+"Please enter supplier name."
+);
+
+return;
+
+}
+
+const supplier={
+
+id:Date.now(),
+
+supplierNumber:
+"SUP-"+
+String(
+suppliers.length+1
+).padStart(4,"0"),
+
+name,
+
+contact,
+
+email,
+
+address
+
+};
+
+suppliers.push(supplier);
+
+saveData();
+
+document.getElementById(
+"supplierName"
+).value="";
+
+document.getElementById(
+"supplierContact"
+).value="";
+
+document.getElementById(
+"supplierEmail"
+).value="";
+
+document.getElementById(
+"supplierAddress"
+).value="";
+
+renderSuppliers();
+
+renderSupplierSelect();
+
+renderInventory();
+
+alert(
+"Supplier added successfully."
+);
+
+}
+
+
+/* ==========================================
+   SUPPLIER LIST
+========================================== */
+
+function renderSuppliers(){
+
+if(currentRole!=="owner")
+return;
+
+const tbody =
+document.getElementById(
+"supplierTable"
+);
+
+tbody.innerHTML="";
+
+if(suppliers.length===0){
+
+tbody.innerHTML=`
+
+<tr>
+
+<td colspan="6">
+No suppliers added yet.
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+suppliers.forEach(
+(supplier,index)=>{
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>
+${escapeHTML(
+supplier.supplierNumber
+)}
+</td>
+
+<td>
+${escapeHTML(
+supplier.name
+)}
+</td>
+
+<td>
+${escapeHTML(
+supplier.contact
+)}
+</td>
+
+<td>
+${escapeHTML(
+supplier.email
+)}
+</td>
+
+<td>
+${escapeHTML(
+supplier.address
+)}
+</td>
+
+<td>
+
+<button
+class="btn btn-danger"
+onclick="deleteSupplier(${index})">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* ==========================================
+   DELETE SUPPLIER
+========================================== */
+
+function deleteSupplier(index){
+
+if(currentRole!=="owner"){
+
+openOwnerLogin();
+
+return;
+
+}
+
+const supplier =
+suppliers[index];
+
+if(!supplier)return;
+
+const used =
+Object.values(
+productDetails
+).some(
+details=>
+String(details.supplierId)===
+String(supplier.id)
+);
+
+if(used){
+
+alert(
+"This supplier is currently assigned to a product. Change the product supplier first."
+);
+
+return;
+
+}
+
+if(
+!confirm(
+"Are you sure you want to delete this supplier?"
+)
+)
+return;
+
+suppliers.splice(
+index,
+1
+);
+
+saveData();
+
+renderSuppliers();
+
+renderSupplierSelect();
+
+alert(
+"Supplier deleted successfully."
+);
+
+}
+
+
+/* ==========================================
+   CUSTOMER LIST
+========================================== */
+
+function renderCustomers(){
+
+if(currentRole!=="owner")
+return;
+
+const tbody =
+document.getElementById(
+"customersTable"
+);
+
+tbody.innerHTML="";
+
+if(customers.length===0){
+
+tbody.innerHTML=`
+
+<tr>
+
+<td colspan="6">
+No customers registered.
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+customers.forEach(
+customer=>{
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>
+${escapeHTML(
+customer.customerNumber||"-"
+)}
+</td>
+
+<td>
+${escapeHTML(
+customer.name
+)}
+</td>
+
+<td>
+${escapeHTML(
+customer.username
+)}
+</td>
+
+<td>
+${escapeHTML(
+customer.email
+)}
+</td>
+
+<td>
+${escapeHTML(
+customer.contact
+)}
+</td>
+
+<td>
+${escapeHTML(
+customer.address||"-"
+)}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* ==========================================
+   EXPIRATION LIST
+========================================== */
+
+function renderExpirationList(){
+
+if(currentRole!=="owner")
+return;
+
+const tbody =
+document.getElementById(
+"expirationTable"
+);
+
+tbody.innerHTML="";
+
+products.forEach(
+product=>{
+
+const details =
+productDetails[
+product.id
+]||{};
+
+const supplier =
+suppliers.find(
+s=>
+String(s.id)===
+String(details.supplierId)
+);
+
+const supplierName =
+supplier ?
+supplier.name :
+"No Supplier";
+
+const stock =
+Number(
+inventory[product.id]??
+product.stock??
+0
+);
+
+let status =
+"No expiration date";
+
+let statusClass="";
+
+if(details.expirationDate){
+
+const expiration =
+new Date(
+details.expirationDate+
+"T23:59:59"
+);
+
+const today =
+new Date();
+
+today.setHours(
+0,0,0,0
+);
+
+const diff =
+expiration.getTime()-
+today.getTime();
+
+const days =
+Math.ceil(
+diff/
+(1000*60*60*24)
+);
+
+if(days<0){
+
+status="Expired";
+
+statusClass=
+"expiration-expired";
+
+}else if(days<=30){
+
+status=
+"Expiring Soon ("+
+days+
+" days)";
+
+statusClass=
+"expiration-warning";
+
+}else{
+
+status="Good";
+
+statusClass=
+"expiration-normal";
+
+}
+
+}
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>
+${escapeHTML(
+product.name
+)}
+</td>
+
+<td>
+${escapeHTML(
+supplierName
+)}
+</td>
+
+<td>
+
+${
+details.expirationDate
+?
+escapeHTML(
+details.expirationDate
+)
+:
+"No expiration"
+}
+
+</td>
+
+<td class="${statusClass}">
+
+${status}
+
+</td>
+
+<td>
+${stock}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* ==========================================
+   POS
+========================================== */
+
+function renderPOSSalesHistory(){
+
+if(currentRole !== "owner") return;
+
+const container = document.getElementById("posSalesHistory");
+if(!container) return;
+
+if(!orders.length){
+    container.innerHTML = "<p style='margin-top:12px;'>No sales recorded yet.</p>";
+    return;
+}
+
+let salesTotal = 0;
+orders.forEach(order=>{ salesTotal += Number(order.total) || 0; });
+
+container.innerHTML = `
+    <div style="margin-top:14px;font-size:20px;font-weight:bold;color:var(--primary-dark);">
+        Total Recorded Sales: ₱${salesTotal.toFixed(2)}
+    </div>
+    ${orders.map(order=>`
+        <div class="pos-sale-card">
+            <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                <strong>${escapeHTML(order.id)}</strong>
+                <span class="status">${escapeHTML(order.status || "Completed")}</span>
+            </div>
+            <p style="margin-top:8px;"><strong>Customer / Buyer:</strong> ${escapeHTML(order.buyer?.name || "Walk-in Customer")}</p>
+            <p><strong>Date:</strong> ${escapeHTML(order.date || "")}</p>
+            <p><strong>Payment:</strong> ${escapeHTML(order.payment || "Not specified")}</p>
+            <p><strong>Items:</strong> ${(order.items || []).map(item=>`${escapeHTML(item.name)} × ${Number(item.quantity)||0}`).join(", ")}</p>
+            <p style="margin-top:8px;font-size:18px;font-weight:bold;">Sale Total: ₱${Number(order.total || 0).toFixed(2)}</p>
+        </div>
+    `).join("")}
+`;
+
+}
+
+
+function renderPOSProducts(){
+
+if(currentRole!=="owner")
+return;
+
+const container =
+document.getElementById(
+"posProducts"
+);
+
+container.innerHTML="";
+
+products.forEach(
+product=>{
+
+const stock =
+Number(
+inventory[product.id]||0
+);
+
+container.innerHTML += `
+
+<div class="pos-product">
+
+<div>
+
+<strong>
+${escapeHTML(
+product.name
+)}
+</strong>
+
+<br>
+
+₱${Number(
+product.price
+).toFixed(2)}
+
+<br>
+
+<small>
+Stock: ${stock}
+</small>
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addToPOS(${product.id})"
+${stock<=0?"disabled":""}>
+
+Add
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+function addToPOS(productId){
+
+if(currentRole!=="owner"){
+
+openOwnerLogin();
+
+return;
+
+}
+
+const product =
+products.find(
+p=>p.id===productId
+);
+
+if(!product)return;
+
+const stock =
+Number(
+inventory[productId]||0
+);
+
+const existing =
+posCart.find(
+item=>
+item.productId===productId
+);
+
+if(existing){
+
+if(
+existing.quantity>=stock
+){
+
+alert(
+"Not enough stock."
+);
+
+return;
+
+}
+
+existing.quantity++;
+
+}else{
+
+posCart.push({
+
+productId,
+
+quantity:1
+
+});
+
+}
+
+renderPOSCart();
+
+}
+
+
+function renderPOSCart(){
+
+const container =
+document.getElementById(
+"posCart"
+);
+
+container.innerHTML="";
+
+let total=0;
+
+if(posCart.length===0){
+
+container.innerHTML=
+"<p>No items in POS cart.</p>";
+
+document.getElementById(
+"posTotal"
+).textContent=
+"0.00";
+
+return;
+
+}
+
+posCart.forEach(
+(item,index)=>{
+
+const product =
+products.find(
+p=>p.id===item.productId
+);
+
+if(!product)return;
+
+const subtotal =
+Number(product.price)*
+Number(item.quantity);
+
+total+=subtotal;
+
+container.innerHTML += `
+
+<div class="pos-cart-item">
+
+<img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}"
+style="width:55px;height:55px;object-fit:cover;border-radius:8px;"
+onerror="this.onerror=null;this.src='https://via.placeholder.com/100?text=HVLN';">
+
+<span>
+
+${escapeHTML(
+product.name
+)}
+× ${item.quantity}
+
+</span>
+
+<strong>
+
+₱${subtotal.toFixed(2)}
+
+</strong>
+
+<button
+class="btn btn-danger"
+onclick="removePOSItem(${index})">
+
+×
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"posTotal"
+).textContent=
+total.toFixed(2);
+
+}
+
+
+function removePOSItem(index){
+
+posCart.splice(
+index,
+1
+);
+
+renderPOSCart();
+
+}
+
+
+function completePOSOrder(){
+
+if(currentRole!=="owner"){
+
+openOwnerLogin();
+
+return;
+
+}
+
+if(posCart.length===0){
+
+alert(
+"POS cart is empty."
+);
+
+return;
+
+}
+
+let total=0;
+
+const items=[];
+
+for(
+const item of posCart
+){
+
+const product =
+products.find(
+p=>p.id===item.productId
+);
+
+if(!product)continue;
+
+const stock =
+Number(
+inventory[product.id]||0
+);
+
+if(item.quantity>stock){
+
+alert(
+"Not enough stock for "+
+product.name
+);
+
+return;
+
+}
+
+const subtotal =
+Number(product.price)*
+Number(item.quantity);
+
+total+=subtotal;
+
+items.push({
+
+productId:product.id,
+
+name:product.name,
+
+image:product.image,
+
+price:product.price,
+
+quantity:item.quantity,
+
+subtotal
+
+});
+
+}
+
+const buyerName =
+prompt(
+"Enter customer name:"
+);
+
+if(!buyerName)
+return;
+
+const buyerContact =
+prompt(
+"Enter customer contact:"
+)||"";
+
+const buyerEmail =
+prompt(
+"Enter customer email:"
+)||"";
+
+const buyerAddress =
+prompt(
+"Enter customer address:"
+)||"";
+
+const order={
+
+id:
+"POS-"+Date.now(),
+
+date:
+new Date().toLocaleString(),
+
+customerUsername:null,
+
+buyer:{
+
+name:buyerName,
+
+username:"",
+
+email:buyerEmail,
+
+contact:buyerContact,
+
+address:buyerAddress
+
+},
+
+items,
+
+total,
+
+payment:"Cash",
+
+status:
+"Completed - POS"
+
+};
+
+orders.unshift(order);
+
+posCart.forEach(
+item=>{
+
+inventory[item.productId]=
+Number(
+inventory[item.productId]||0
+)-
+Number(item.quantity);
+
+const product =
+products.find(
+p=>p.id===item.productId
+);
+
+if(product)
+product.stock=
+inventory[item.productId];
+
+});
+
+saveData();
+
+posCart=[];
+
+renderPOSCart();
+
+renderPOSProducts();
+
+renderPOSSalesHistory();
+
+renderInventory();
+
+renderProducts();
+
+renderHomeProducts();
+
+renderExpirationList();
+
+alert(
+"POS sale completed successfully!\n\n"+
+"Order ID: "+order.id
+);
+
+}
+
+
+/* ==========================================
+   CUSTOMER REVIEW FORM
+========================================== */
+
+function renderReviewForm(){
+
+const container =
+document.getElementById(
+"reviewFormContainer"
+);
+
+if(!container)
+return;
+
+
+if(currentRole!=="customer"){
+
+container.innerHTML=`
+
+<div class="login-review-message">
+
+<h3>
+Want to leave a review?
+</h3>
+
+<p style="margin:10px 0;">
+
+Please login as a customer first.
+
+</p>
+
+<button
+class="btn btn-primary"
+onclick="openLogin()">
+
+Customer Login
+
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+container.innerHTML=`
+
+<div class="review-form">
+
+<h3>
+Write a Review
+</h3>
+
+<br>
+
+<div class="form-group">
+
+<label>
+Rating
+</label>
+
+<select id="reviewRating">
+
+<option value="5">
+★★★★★ - Excellent
+</option>
+
+<option value="4">
+★★★★☆ - Very Good
+</option>
+
+<option value="3">
+★★★☆☆ - Good
+</option>
+
+<option value="2">
+★★☆☆☆ - Fair
+</option>
+
+<option value="1">
+★☆☆☆☆ - Poor
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Your Comment
+</label>
+
+<textarea
+id="reviewComment"
+rows="4"
+placeholder="Write your comment here..."
+required></textarea>
+
+</div>
+
+
+<button
+class="btn btn-primary"
+onclick="submitReview()">
+
+Submit Review
+
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* ==========================================
+   SUBMIT REVIEW
+========================================== */
+
+function submitReview(){
+
+if(currentRole!=="customer"){
+
+openLogin();
+
+return;
+
+}
+
+const rating =
+Number(
+document.getElementById(
+"reviewRating"
+).value
+);
+
+const comment =
+document.getElementById(
+"reviewComment"
+).value.trim();
+
+if(!comment){
+
+alert(
+"Please write a comment first."
+);
+
+return;
+
+}
+
+const newReview={
+
+id:Date.now(),
+
+name:
+currentUser.name,
+
+username:
+currentUser.username,
+
+rating,
+
+comment,
+
+date:
+new Date().toLocaleString()
+
+};
+
+reviews.unshift(
+newReview
+);
+
+saveReviews();
+
+renderReviews();
+
+renderReviewForm();
+
+alert(
+"Your review has been submitted successfully!"
+);
+
+}
+
+
+/* ==========================================
+   DISPLAY REVIEWS
+========================================== */
+
+function renderReviews(){
+
+const container =
+document.getElementById(
+"reviewsContainer"
+);
+
+if(!container)
+return;
+
+container.innerHTML="";
+
+if(reviews.length===0){
+
+container.innerHTML=`
+
+<p>
+No reviews yet.
+</p>
+
+`;
+
+return;
+
+}
+
+reviews.forEach(
+review=>{
+
+const rating =
+Number(review.rating)||0;
+
+const stars =
+"★".repeat(rating)+
+"☆".repeat(5-rating);
+
+container.innerHTML += `
+
+<div class="review-card">
+
+<div class="stars">
+${stars}
+</div>
+
+<h3>
+${escapeHTML(
+review.name
+)}
+</h3>
+
+<p style="
+margin:10px 0;
+line-height:1.6;
+">
+
+${escapeHTML(
+review.comment
+)}
+
+</p>
+
+${
+review.date
+?
+`
+
+<small style="
+color:#868e96;
+">
+
+${escapeHTML(
+review.date
+)}
+
+</small>
+
+`
+:
+""
+}
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* ==========================================
+   CLOSE MODAL
+========================================== */
+
+function closeModal(id){
+
+const modal =
+document.getElementById(id);
+
+if(modal)
+modal.classList.remove("show");
+
+if(id==="returnModal")
+selectedReturnOrderId=null;
+
+}
+
+
+window.addEventListener(
+"click",
+function(e){
+
+if(
+e.target.classList.contains("modal")
+){
+
+e.target.classList.remove("show");
+
+}
+
+}
+);
+
+
+/* ==========================================
+   START SYSTEM
+========================================== */
+
+initializeInventory();
+
+initializeProductDetails();
+
+updateCartCount();
+
+updateNavigation();
+updateAuthScreen();
+
+renderHomeProducts();
+
+renderProducts();
+
+renderAccount();
+
+renderReviewForm();
+
+renderReviews();
+
+
+loadProductsFromDatabase();
+
+</script>
+
+</body>
+</html>
